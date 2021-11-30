@@ -19,33 +19,33 @@ public class PositionController {
 
     private final PositionService positionService;
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<PositionDto> create(@RequestBody final CreatePositionDto position) {
         return positionService.create(position);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<PositionDto>> getAll() {
         return new ResponseEntity<>(positionService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("{terminalId}")
+    @GetMapping("/find/{terminalId}")
     public ResponseEntity<List<PositionDto>> getAllByTerminalId(@PathVariable String terminalId) {
         return new ResponseEntity<>(positionService.getAllByTerminalId(terminalId), HttpStatus.OK);
     }
 
-    @GetMapping("/allByCreationDate")
+    @GetMapping("/find/allByCreationDate")
     public ResponseEntity<List<PositionDto>> getAllByCreationDate(@RequestBody DateDto dateDto) {
         return new ResponseEntity<>(positionService.getAllByCreationDate(dateDto), HttpStatus.OK);
     }
 
-    @PatchMapping("{positionId}")
+    @PatchMapping("/update/{positionId}")
     public ResponseEntity<PositionDto> update(@PathVariable String positionId,
                                               @RequestBody UpdatePositionDto updatePositionDto) {
         return new ResponseEntity<>(positionService.update(positionId, updatePositionDto), HttpStatus.OK);
     }
 
-    @DeleteMapping("{positionId}")
+    @DeleteMapping("/delete/{positionId}")
     public ResponseEntity<Void> delete(@PathVariable String positionId) {
         positionService.remove(positionId);
         return ResponseEntity.ok().build();
