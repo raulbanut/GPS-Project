@@ -1,0 +1,38 @@
+/* Remove browser defaults */
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+/* Style App.js wrapper */
+.App {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.page {
+  height: 100%;
+  background-color: #053742;
+}
+
+.content {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #053742;
+}

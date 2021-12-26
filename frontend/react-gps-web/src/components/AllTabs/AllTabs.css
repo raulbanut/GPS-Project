@@ -1,0 +1,39 @@
+.textInput {
+  font-size: 1rem;
+  font-weight: 400;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.textInput input {
+  width: 30%;
+  margin-top: 0.2rem;
+}
+
+.textInput label {
+  font-family: "Monaco", monospace;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+}
+
+.textInput .submitButton {
+  font-family: "Monaco", monospace;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  width: 10%;
+  border-radius: 1rem;
+  background: #0e8ccf;
+  border-width: 0px;
+  margin-top: 2.5rem;
+}
+
+.textInput .submitButton:hover{
+  background-color:#52bcf5;
+  border-width: 0cm;
+}
