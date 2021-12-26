@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/positions")
 @RequiredArgsConstructor
 public class PositionController {
@@ -39,7 +40,7 @@ public class PositionController {
         return new ResponseEntity<>(positionService.getAllByCreationDate(dateDto), HttpStatus.OK);
     }
 
-    @PatchMapping("/update/{positionId}")
+    @PutMapping("/update/{positionId}")
     public ResponseEntity<PositionDto> update(@PathVariable String positionId,
                                               @RequestBody UpdatePositionDto updatePositionDto) {
         return new ResponseEntity<>(positionService.update(positionId, updatePositionDto), HttpStatus.OK);
