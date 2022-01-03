@@ -16,5 +16,5 @@ public class PositionEntity {
     private float latitude;
     private float longitude;
     private LocalDateTime creationDate;
-    private LocalDateTime updateDate;
+    private String updateDate;
 }
