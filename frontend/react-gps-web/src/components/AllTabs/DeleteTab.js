@@ -1,9 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./AllTabs.css";
+import axios from "axios";
 
-const DeleteTab = () => {
+const DeleteTab = (props) => {
+  const { position, positions } = props;
+
   const [form, setForm] = useState({});
+
+  useEffect(() => {
+    const obiect = deletePositionObject(position);
+    setForm({
+      id: obiect?.id,
+    });
+  }, [position]);
+
+  const deletePositionObject = (position) => {
+    const searchedPosition = positions.find(
+      (item) =>
+        item.latitude === position?.latitude &&
+        item.longitude === position?.longitude
+    );
+    return searchedPosition;
+  };
 
   const onChange = (event) => {
     setForm((previousState) => {
@@ -11,9 +30,19 @@ const DeleteTab = () => {
     });
   };
 
+  const removePosition = async () => {
+    try {
+      const response = await axios.delete(
+        "http://localhost:8081/positions/delete/" + form.id
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(form.terminalId);
+    removePosition();
   };
 
   return (

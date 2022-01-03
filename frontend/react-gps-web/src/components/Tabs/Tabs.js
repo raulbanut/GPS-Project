@@ -8,8 +8,10 @@ import GetAllTerminalID from "../AllTabs/GetAllTerminalIdTab";
 
 import "./Tabs.css";
 
-const Tabs = () => {
-  const [activeTab, setActiveTab] = useState("tabGetAllDate");
+const Tabs = (props) => {
+  const { position, updatePositions, positions } = props;
+
+  const [activeTab, setActiveTab] = useState("tabGetAll");
 
   const handleTabDelete = () => {
     setActiveTab("tabDelete");
@@ -68,15 +70,18 @@ const Tabs = () => {
 
       <div className="outlet">
         {activeTab === "tabUpdate" ? (
-          <UpdateTab />
+          <UpdateTab position={position} positions={positions} />
         ) : activeTab === "tabGetAll" ? (
-          <GetAllTab />
+          <GetAllTab updatePositions={updatePositions} />
         ) : activeTab === "tabGetAllTerminalID" ? (
-          <GetAllTerminalID />
+          <GetAllTerminalID updatePositions={updatePositions} />
         ) : activeTab === "tabGetAllDate" ? (
-          <GetAllDateTab />
+          <GetAllDateTab updatePositions={updatePositions} />
         ) : (
-          <DeleteTab />
+          <DeleteTab
+            position={position}
+            positions={positions}
+          />
         )}
       </div>
     </div>

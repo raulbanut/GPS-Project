@@ -30,6 +30,10 @@ body, html {
   background-color: #053742;
 }
 
+.header {
+  height: 42%;
+}
+
 .content {
   height: 100%;
   display: flex;

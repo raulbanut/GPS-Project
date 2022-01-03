@@ -1,9 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./AllTabs.css";
+import axios from "axios";
 
-const UpdateTab = () => {
-  const [form, setForm] = useState({});
+const UpdateTab = (props) => {
+  const { position, positions } = props;
+
+  const [form, setForm] = useState({
+    latitude: "",
+    longitude: "",
+  });
+
+  useEffect(() => {
+    const obiect = updatePositionObject(position);
+    setForm({
+      id: obiect?.id,
+      latitude: position?.latitude,
+      longitude: position?.longitude,
+    });
+  }, [position]);
+
+  const updatePositionObject = (position) => {
+    const searchedPosition = positions.find(
+      (item) =>
+        item.latitude === position?.latitude &&
+        item.longitude === position?.longitude
+    );
+    return searchedPosition;
+  };
 
   const onChange = (event) => {
     setForm((previousState) => {
@@ -13,7 +37,18 @@ const UpdateTab = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Am ajuns aici");
+    updatePosition();
+  };
+
+  const updatePosition = async () => {
+    try {
+      const response = await axios.put(
+        "http://localhost:8081/positions/update/" + form.id,
+        { latitude: form.latitude, longitude: form.longitude }
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

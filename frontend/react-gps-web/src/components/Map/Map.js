@@ -2,26 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Map, Marker, GoogleApiWrapper } from "google-maps-react";
 
 import "./Map.css";
-import axios from "axios";
 
 function MapComponent(props) {
+  const { positions: searchedPositions, updatePosition } = props;
   const [positions, setPositions] = useState([]);
 
   useEffect(() => {
-    console.log("Use effect!");
-    getAllPositions();
-  }, []);
+    setPositions(searchedPositions);
+  }, [searchedPositions]);
 
-  const getAllPositions = async () => {
-    try {
-      const response = await axios.get("http://localhost:8081/positions/all");
-      setPositions(response.data);
-    } catch (error) {
-      console.log(error);
+  const onMarkerClick = (e) => {
+    if (updatePosition && typeof updatePosition === "function") {
+      updatePosition({ latitude: e.position.lat, longitude: e.position.lng });
     }
   };
-
-  const updatePosition = (latitude, longitude) => {};
 
   return (
     <div className="map-wrapper">
@@ -35,7 +29,11 @@ function MapComponent(props) {
       >
         {positions.map((item) => {
           return (
-            <Marker position={{ lat: item.latitude, lng: item.longitude }} />
+            <Marker
+              key={item.id}
+              onClick={onMarkerClick}
+              position={{ lat: item.latitude, lng: item.longitude }}
+            />
           );
         })}
       </Map>
@@ -44,5 +42,5 @@ function MapComponent(props) {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyA8rjqjRaZFQgNMrdk6oM8fAb1Vtrec7qs",
+  apiKey: process.env.REACT_APP_API_KEY,
 })(MapComponent);

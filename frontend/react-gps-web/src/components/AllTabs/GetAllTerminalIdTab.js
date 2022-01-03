@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 
 import "./AllTabs.css";
+import axios from "axios";
 
-const GetAllTerminalIdTab = () => {
+const GetAllTerminalIdTab = (props) => {
+  const { updatePositions } = props;
   const [form, setForm] = useState({});
 
   const onChange = (event) => {
@@ -13,8 +15,18 @@ const GetAllTerminalIdTab = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(form.terminalId);
-    form.terminalId = "";
+    getAllPositionsID(form.terminalId);
+  };
+
+  const getAllPositionsID = async (item) => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/positions/find/" + item
+      );
+      updatePositions(response.data);
+    } catch (error) {
+      console.error();
+    }
   };
 
   return (

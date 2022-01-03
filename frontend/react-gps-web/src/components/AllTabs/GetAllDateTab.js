@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 
 import "./AllTabs.css";
+import axios from "axios";
 
-const GetAllDateTab = () => {
+const GetAllDateTab = (props) => {
+  const { updatePositions } = props;
   const [form, setForm] = useState({});
 
   const onChange = (event) => {
@@ -13,7 +15,26 @@ const GetAllDateTab = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log(form.terminalId);
+    getAllPositionsDate();
+  };
+
+  const getAllPositionsDate = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8081/positions/find/allByCreationDate",
+        {
+          params: {
+            startDate: form.startDate,
+            endDate: form.endDate,
+          },
+        }
+      );
+      // console.log(response.data);
+      updatePositions(response.data);
+    } catch (error) {
+      alert("There are no positions between the input dates!");
+      console.error();
+    }
   };
 
   return (
@@ -24,9 +45,9 @@ const GetAllDateTab = () => {
 
           <input
             className="form-control form-control-md"
-            name="id"
-            type="text"
-            value={form.id}
+            name="startDate"
+            type="datetime-local"
+            value={form.startDate}
             onChange={onChange}
           />
         </div>
@@ -36,9 +57,9 @@ const GetAllDateTab = () => {
 
           <input
             className="form-control form-control-md"
-            name="longitude"
-            type="text"
-            value={form.longitude}
+            name="endDate"
+            type="datetime-local"
+            value={form.endDate}
             onChange={onChange}
           />
         </div>
