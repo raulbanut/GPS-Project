@@ -1,7 +1,6 @@
 package GPSProject.service;
 
 import GPSProject.dto.CreatePositionDto;
-import GPSProject.dto.DateDto;
 import GPSProject.dto.PositionDto;
 import GPSProject.dto.UpdatePositionDto;
 import GPSProject.entity.PositionEntity;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,20 +57,23 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public List<PositionDto> getAllByCreationDate(DateDto dateDto) {
-        if (dateDto.getStartDate().isAfter(dateDto.getEndDate())) {
+    public List<PositionDto> getAllByCreationDate(String startDate, String endDate) {
+        LocalDateTime startDateNew = LocalDateTime.parse(startDate);
+        LocalDateTime endDateNew = LocalDateTime.parse(endDate);
+
+        if (startDateNew.isAfter(endDateNew)) {
             throw new MortgageServiceException(String.format(
                     ErrorMessages.ERROR_START_DATE_IS_AFTER_END_DATE,
-                    dateDto.getStartDate(),
-                    dateDto.getEndDate()));
+                    startDateNew,
+                    endDateNew));
         }
 
         List<PositionEntity> positionRepositoryAll = positionRepository.findAll();
         List<PositionEntity> positionEntities = new ArrayList<>();
 
         for (PositionEntity positionEntity : positionRepositoryAll) {
-            if (positionEntity.getCreationDate().isAfter(dateDto.getStartDate()) &&
-                    positionEntity.getCreationDate().isBefore(dateDto.getEndDate())) {
+            if (positionEntity.getCreationDate().isAfter(startDateNew) &&
+                    positionEntity.getCreationDate().isBefore(endDateNew)) {
                 positionEntities.add(positionEntity);
             }
         }
@@ -89,7 +92,8 @@ public class PositionServiceImpl implements PositionService {
         PositionEntity positionEntity = positionRepository.findById(positionId)
                 .orElseThrow(() -> new MortgageServiceException(String.format(ErrorMessages.ERROR_POSITION_DOES_NOT_EXIST, positionId)));
 
-        positionEntity.setUpdateDate(LocalDateTime.now());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        positionEntity.setUpdateDate(LocalDateTime.now().format(formatter));
 
         checkLatitude(updatePositionDto.getLatitude());
         checkLongitude(updatePositionDto.getLongitude());

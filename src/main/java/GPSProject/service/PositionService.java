@@ -1,7 +1,6 @@
 package GPSProject.service;
 
 import GPSProject.dto.CreatePositionDto;
-import GPSProject.dto.DateDto;
 import GPSProject.dto.PositionDto;
 import GPSProject.dto.UpdatePositionDto;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ public interface PositionService {
 
     List<PositionDto> getAllByTerminalId(final String terminalId);
 
-    List<PositionDto> getAllByCreationDate(final DateDto dateDto);
+    List<PositionDto> getAllByCreationDate(final String startDate, final String endDate);
 
     PositionDto update(final String positionId, UpdatePositionDto updatePositionDto);
 

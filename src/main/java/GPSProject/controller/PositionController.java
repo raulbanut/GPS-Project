@@ -1,7 +1,6 @@
 package GPSProject.controller;
 
 import GPSProject.dto.CreatePositionDto;
-import GPSProject.dto.DateDto;
 import GPSProject.dto.PositionDto;
 import GPSProject.dto.UpdatePositionDto;
 import GPSProject.service.PositionService;
@@ -36,8 +35,8 @@ public class PositionController {
     }
 
     @GetMapping("/find/allByCreationDate")
-    public ResponseEntity<List<PositionDto>> getAllByCreationDate(@RequestBody DateDto dateDto) {
-        return new ResponseEntity<>(positionService.getAllByCreationDate(dateDto), HttpStatus.OK);
+    public ResponseEntity<List<PositionDto>> getAllByCreationDate(@RequestParam String startDate, @RequestParam String endDate) {
+        return new ResponseEntity<>(positionService.getAllByCreationDate(startDate, endDate), HttpStatus.OK);
     }
 
     @PutMapping("/update/{positionId}")
