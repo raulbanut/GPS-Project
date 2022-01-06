@@ -1,0 +1,46 @@
+version: '3'
+services:
+  gps-db:
+    container_name: gps-db
+    restart: unless-stopped
+    image: "mongo"
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=mortgage-app
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=admin
+      - MONGO_DB_USERNAME=admin
+      - MONGO_DB_PASSWORD=admin
+    volumes:
+      - gps-db:/data/db
+
+  gps-client:
+    container_name: gps-client
+    image: banutraul/gps-client:latest
+    restart: on-failure
+    command: npm start
+    ports:
+      - 3000:3000
+
+  gps-service:
+    container_name: gps-service
+    restart: on-failure
+    ports:
+      - 8081:8081
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SPRING_DATA_MONGODB_HOST=gps-db
+      - SPRING_DATA_MONGODB_PORT=27017
+      - SPRING_DATA_MONGODB_DATABASE=position-app
+      - SPRING_DATA_MONGODB_USERNAME=admin
+      - SPRING_DATA_MONGODB_PASSWORD=admin
+    depends_on:
+      - gps-db
+      - gps-client
+
+volumes:
+  gps-db:
+  gps-client:
