@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./AllTabs.css";
 import axios from "axios";
@@ -13,9 +13,12 @@ const GetAllTerminalIdTab = (props) => {
     });
   };
 
+  useEffect(() => {}, [form]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     getAllPositionsID(form.terminalId);
+    setForm({terminalId:""});
   };
 
   const getAllPositionsID = async (item) => {

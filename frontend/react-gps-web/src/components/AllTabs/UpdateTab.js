@@ -35,9 +35,13 @@ const UpdateTab = (props) => {
     });
   };
 
+  useEffect(() => {
+  }, [form]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     updatePosition();
+    setForm({ latitude: "", longitude: "" });
   };
 
   const updatePosition = async () => {

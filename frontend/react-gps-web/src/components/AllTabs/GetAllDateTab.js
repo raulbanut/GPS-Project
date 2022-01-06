@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import "./AllTabs.css";
 import axios from "axios";
@@ -13,9 +13,12 @@ const GetAllDateTab = (props) => {
     });
   };
 
+  useEffect(() => {}, [form]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     getAllPositionsDate();
+    setForm({startDate:"",endDate:""});
   };
 
   const getAllPositionsDate = async () => {

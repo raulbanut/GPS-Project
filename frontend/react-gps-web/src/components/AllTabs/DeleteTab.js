@@ -8,6 +8,8 @@ const DeleteTab = (props) => {
 
   const [form, setForm] = useState({});
 
+  useEffect(() => {}, [form]);
+
   useEffect(() => {
     const obiect = deletePositionObject(position);
     setForm({
@@ -43,6 +45,7 @@ const DeleteTab = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     removePosition();
+    setForm({id:""});
   };
 
   return (
