@@ -4,7 +4,7 @@ import GPSProject.dto.CreatePositionDto;
 import GPSProject.dto.PositionDto;
 import GPSProject.dto.UpdatePositionDto;
 import GPSProject.entity.PositionEntity;
-import GPSProject.exceptions.MortgageServiceException;
+import GPSProject.exceptions.GPSServiceException;
 import GPSProject.repository.PositionRepository;
 import GPSProject.utils.ErrorMessages;
 import lombok.RequiredArgsConstructor;
@@ -62,7 +62,7 @@ public class PositionServiceImpl implements PositionService {
         LocalDateTime endDateNew = LocalDateTime.parse(endDate);
 
         if (startDateNew.isAfter(endDateNew)) {
-            throw new MortgageServiceException(String.format(
+            throw new GPSServiceException(String.format(
                     ErrorMessages.ERROR_START_DATE_IS_AFTER_END_DATE,
                     startDateNew,
                     endDateNew));
@@ -79,7 +79,7 @@ public class PositionServiceImpl implements PositionService {
         }
 
         if (positionEntities.isEmpty()) {
-            throw new MortgageServiceException(String.format(ErrorMessages.ERROR_POSITIONS_BETWEEN_DATES_NOT_EXIST));
+            throw new GPSServiceException(String.format(ErrorMessages.ERROR_POSITIONS_BETWEEN_DATES_NOT_EXIST));
         }
 
         Type type = new TypeToken<List<PositionDto>>() {
@@ -90,7 +90,7 @@ public class PositionServiceImpl implements PositionService {
     @Override
     public PositionDto update(String positionId, UpdatePositionDto updatePositionDto) {
         PositionEntity positionEntity = positionRepository.findById(positionId)
-                .orElseThrow(() -> new MortgageServiceException(String.format(ErrorMessages.ERROR_POSITION_DOES_NOT_EXIST, positionId)));
+                .orElseThrow(() -> new GPSServiceException(String.format(ErrorMessages.ERROR_POSITION_DOES_NOT_EXIST, positionId)));
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         positionEntity.setUpdateDate(LocalDateTime.now().format(formatter));
@@ -111,7 +111,7 @@ public class PositionServiceImpl implements PositionService {
         if (positionRepository.existsById(positionId)) {
             positionRepository.deleteById(positionId);
         } else {
-            throw new MortgageServiceException(String.format(
+            throw new GPSServiceException(String.format(
                     ErrorMessages.ERROR_POSITION_DOES_NOT_EXIST,
                     positionId));
         }
@@ -119,11 +119,11 @@ public class PositionServiceImpl implements PositionService {
 
     public void checkLatitude(float latitude) {
         if (latitude < -90 || latitude > 90)
-            throw new MortgageServiceException(String.format(ErrorMessages.ERROR_LATITUDE_NOT_EXIST, latitude));
+            throw new GPSServiceException(String.format(ErrorMessages.ERROR_LATITUDE_NOT_EXIST, latitude));
     }
 
     public void checkLongitude(float longitude) {
         if (longitude < -180 || longitude > 180)
-            throw new MortgageServiceException(String.format(ErrorMessages.ERROR_LONGITUDE_NOT_EXIST, longitude));
+            throw new GPSServiceException(String.format(ErrorMessages.ERROR_LONGITUDE_NOT_EXIST, longitude));
     }
 }

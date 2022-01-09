@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalControllerAdvice {
 
-    @ExceptionHandler(MortgageServiceException.class)
-    public ResponseEntity<String> handleDataProblemException(MortgageServiceException e) {
+    @ExceptionHandler(GPSServiceException.class)
+    public ResponseEntity<String> handleDataProblemException(GPSServiceException e) {
         log.error(e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
